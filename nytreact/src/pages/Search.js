@@ -22,7 +22,10 @@ class Search extends Component {
   };
 
   handleInputChange = event => {
-    this.setState({ search: event.target.value });
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
   };
 
   // UPDATED FORM SUBMIT (HOW EXACTLY IS THIS WORKING???)
@@ -82,6 +85,7 @@ class Search extends Component {
           <SearchForm
             handleFormSubmit={this.handleFormSubmit}
             handleInputChange={this.handleInputChange}
+            value={this.state.search}
             topics={this.state.topics}
             startYears={this.state.startYears}
             endYears={this.state.endYears}

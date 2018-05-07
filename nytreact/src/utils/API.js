@@ -1,11 +1,29 @@
 import axios from "axios";
 import SearchForm from "../components/SearchForm"
 
+// THIS IS THE MAIN API ISSUE, 
+// IT CAUSES A DEPENDENCY ERROR,
+// I HOPE TO RESOLVE IT BUT CANNOT BEFORE THE 6:30 DEADLINE
+
+// import express from "express";
+
+// const router = require("express").Router();
+
+// router.get("/articles", (req, res) => {
+//   axios
+//     .get("https://api.nytimes.com/svc/articlesearch/", { params: req.query })
+//     .then(({ data: { results } }) => res.json(results))
+//     .catch(err => res.status(422).json(err));
+// });
+
+// casues this error:
+// TypeError: Cannot read property 'prototype' of undefined
+
 const apiThing ="8bcc1acfc78249e49d107e3e6a02cb1f";
 
 var Topic = "";
 
-// Export an object containing methods we'll use for accessing the Dog.Ceo API
+// Export an object containing methods weYY'll use for accessing the Dog.Ceo API
 
 export default {
   //NOT POSITIVE THESE ARE THE CORRECT ROUTES
@@ -21,6 +39,7 @@ export default {
   }
 };
 
+// module.exports = router;
 // NYT API KEY:  8bcc1acfc78249e49d107e3e6a02cb1f
 
 // NYT DEMO ARTICLE SEARCH CODE

@@ -5,7 +5,7 @@ import "./SearchForm.css";
 const SearchForm = props => (
   <form className="search">
     <div className="form-group">
-      <label htmlFor="breed">Topic:</label>
+      <label htmlFor="searcher">Topic:</label>
       <input
         value={props.search}
         onChange={props.handleInputChange}
@@ -17,7 +17,7 @@ const SearchForm = props => (
         id="topic"
       />
       <p>  </p>
-      <label htmlFor="breed">Start Year:</label>
+      <label htmlFor="searcher">Start Year:</label>
       <input
         value={props.search}
         onChange={props.handleInputChange}
@@ -29,7 +29,7 @@ const SearchForm = props => (
         id="startYear"
       />
       <p>  </p>
-      <label htmlFor="breed">End Year:</label>
+      <label htmlFor="searcher">End Year:</label>
       <input
         value={props.search}
         onChange={props.handleInputChange}
@@ -40,21 +40,6 @@ const SearchForm = props => (
         placeholder=""
         id="endYear"
       />
-      <p>  </p>
-      <label htmlFor="breed">breeds:</label>
-      <input
-        value={props.search}
-        onChange={props.handleInputChange}
-        name="breed"
-        list="breeds"
-        type="text"
-        className="form-control"
-        placeholder=""
-        id="breed"
-      />
-      {/* <datalist id="breeds">
-        {props.breeds.map(breed => <option value={breed} key={breed} />)}
-      </datalist> */}
       <button
         type="submit"
         onClick={props.handleFormSubmit}

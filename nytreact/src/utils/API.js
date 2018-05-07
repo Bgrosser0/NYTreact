@@ -1,6 +1,9 @@
 import axios from "axios";
+import SearchForm from "../components/SearchForm"
 
+const apiThing ="8bcc1acfc78249e49d107e3e6a02cb1f";
 
+var Topic = "";
 
 // Export an object containing methods we'll use for accessing the Dog.Ceo API
 
@@ -18,8 +21,8 @@ export default {
   //NOT POSITIVE THESE ARE THE CORRECT ROUTES
 
   getArticlesTopic: function() {
-    return axios.get("https://api.nytimes.com/svc/articleseardh/?q=");
-  },
+    return axios.get("https://api.nytimes.com/svc/articleseardh/?q=" + Topic + apiThing); // apiThing evaluates to key=sldfjlkadsjflkdsfj
+   },
   getArticlesEndYear: function() {
     return axios.get("https://api.nytimes.com/svc/search/v2/articlesearch.json");
   },

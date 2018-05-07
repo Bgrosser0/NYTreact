@@ -4,22 +4,21 @@ import Container from "../components/Container";
 import Row from "../components/Row";
 import Col from "../components/Col";
 
-const About = () => (
+const Home = () => (
   <div>
-    <Hero backgroundImage="https://cdn1.medicalnewstoday.com/content/images/articles/276/276714/red-and-white-onions.jpg">
-      <h1>Onion Peeler</h1>
-      <h2>Peel those stinky layers</h2>
+    <Hero backgroundImage="https://img00.deviantart.net/4854/i/2013/352/8/1/newspaper_collage_texture_by_flordeneu-d6yeuvs.jpg">
+      <h1>New York Times Scraper</h1>
     </Hero>
     <Container style={{ marginTop: 30 }}>
       <Row>
         <Col size="md-12">
-          <h1>Layer Pile</h1>
+          <h1>Your Articles</h1>
         </Col>
       </Row>
       <Row>
         <Col size="md-12">
           <p>
-            Eventually articles will appear underneath here...
+            Eventually saved articles will appear underneath here...
           </p>
         </Col>
       </Row>
@@ -27,4 +26,4 @@ const About = () => (
   </div>
 );
 
-export default About;
+export default Home;

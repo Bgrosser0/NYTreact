@@ -1,68 +1,110 @@
 import React, { Component } from "react";
 import API from "../utils/API";
-import Card from "../components/Card";
+import Container from "../components/Container";
+import SearchForm from "../components/SearchForm";
+import SearchResults from "../components/SearchResults";
 import Alert from "../components/Alert";
+import Hero from "../components/Hero"
 
 class Search extends Component {
   state = {
-    image: "",
-    match: false,
-    matchCount: 0
+    search: "",
+    breeds: [],
+    startYears: [],
+    endYears: [],
+    topics: [],
+    results: [],
+    error: ""
   };
 
-  // When the component mounts, load the next dog to be displayed
+  // When the component mounts, get a list of all available base breeds and update this.state.breeds
   componentDidMount() {
-    this.loadNextDog();
+    API.getBaseBreedsList()
+    // GET ARTICLES
+    // API.getArticlesList()
+      .then(res => this.setState({ breeds: res.data.message }))
+      .catch(err => console.log(err));
   }
 
-  handleBtnClick = event => {
-    // Get the data-value of the clicked button
-    const btnType = event.target.attributes.getNamedItem("data-value").value;
-    // Clone this.state to the newState object
-    // We'll modify this object and use it to set our component's state
-    const newState = { ...this.state };
-
-    if (btnType === "pick") {
-      // Set newState.match to either true or false depending on whether or not the dog likes us (1/5 chance)
-      newState.match = 1 === Math.floor(Math.random() * 5) + 1;
-
-      // Set newState.matchCount equal to its current value or its current value + 1 depending on whether the dog likes us
-      newState.matchCount = newState.match
-        ? newState.matchCount + 1
-        : newState.matchCount;
-    } else {
-      // If we thumbs down'ed the dog, we haven't matched with it
-      newState.match = false;
-    }
-    // Replace our component's state with newState, load the next dog image
-    this.setState(newState);
-    this.loadNextDog();
+  handleInputChange = event => {
+    this.setState({ search: event.target.value });
   };
 
-  loadNextDog = () => {
-    API.getRandomDog()
-      .then(res =>
-        this.setState({
-          image: res.data.message
-        })
-      )
-      .catch(err => console.log(err));
+  handleFormSubmit = event => {
+    event.preventDefault();
+    API.getDogsOfBreed(this.state.search)
+      .then(res => {
+        if (res.data.status === "error") {
+          throw new Error(res.data.message);
+        }
+        this.setState({ results: res.data.message, error: "" });
+      })
+      .catch(err => this.setState({ error: err.message }));
   };
+
+  // UPDATED FORM SUBMIT (HOW EXACTLY IS THIS WORKING???)
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    API.getArticlesTopic(this.state.search)
+      .then(res => {
+        if (res.data.status === "error") {
+          throw new Error(res.data.message);
+        }
+        this.setState({ results: res.data.message, error: ""});
+      })
+      .catch(err => this.setState({ error: err.message }));
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    API.getArticlesStartYear(this.state.search)
+      .then(res => {
+        if (res.data.status === "error") {
+          throw new Error(res.data.message);
+        }
+        this.setState({ results: res.data.message, error: ""});
+      })
+      .catch(err => this.setState({ error: err.message }));
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    API.getArticlesEndYear(this.state.search)
+      .then(res => {
+        if (res.data.status === "error") {
+          throw new Error(res.data.message);
+        }
+        this.setState({ results: res.data.message, error: ""});
+      })
+      .catch(err => this.setState({ error: err.message}));
+  };
+
 
   render() {
     return (
       <div>
-        <h1 className="text-center">Make New Friends</h1>
-        <h3 className="text-center">
-          Thumbs up on any pups you'd like to meet!
-        </h3>
-        <Card image={this.state.image} handleBtnClick={this.handleBtnClick} />
-        <h1 className="text-center">
-          Made friends with {this.state.matchCount} pups so far!
-        </h1>
-        <Alert style={{ opacity: this.state.match ? 1 : 0 }} type="success">
-          Yay! That Pup Liked You Too!!!
-        </Alert>
+        <Hero backgroundImage="https://img00.deviantart.net/4854/i/2013/352/8/1/newspaper_collage_texture_by_flordeneu-d6yeuvs.jpg">
+          <h1>New York Times Scraper</h1>
+          <h2>Find some articles!</h2>
+        </Hero>
+        <Container style={{ minHeight: "80%" }}>
+          <Alert
+            type="danger"
+            style={{ opacity: this.state.error ? 1 : 0, marginBottom: 10 }}
+          >
+            {this.state.error}
+          </Alert>
+          <SearchForm
+            handleFormSubmit={this.handleFormSubmit}
+            handleInputChange={this.handleInputChange}
+            breeds={this.state.breeds}
+            topics={this.state.topics}
+            startYears={this.state.startYears}
+            endYears={this.state.endYears}
+          />
+          <SearchResults results={this.state.results} />
+        </Container>
       </div>
     );
   }

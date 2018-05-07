@@ -1,6 +1,8 @@
 import React from "react";
 import "./ArticleCard.css";
 import Container from "../Container";
+import Row from "../Row";
+import Col from "../Col";
 
 export const ArticleCard = props => (
     <li className="list-group-item">

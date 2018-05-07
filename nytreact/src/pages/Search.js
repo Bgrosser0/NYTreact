@@ -5,11 +5,15 @@ import SearchForm from "../components/SearchForm";
 import SearchResults from "../components/SearchResults";
 import Alert from "../components/Alert";
 import Hero from "../components/Hero"
+import { ArticleCardList } from "../components/ArticleCardList/ArticleCardList";
+import ArticleCard from "../components/ArticleCard";
+import Row from "../components/Row";
+import Col from "../components/Col";
 
 class Search extends Component {
   state = {
     search: "",
-    breeds: [],
+    articles: [],
     startYears: [],
     endYears: [],
     topics: [],
@@ -17,29 +21,8 @@ class Search extends Component {
     error: ""
   };
 
-  // When the component mounts, get a list of all available base breeds and update this.state.breeds
-  componentDidMount() {
-    API.getBaseBreedsList()
-    // GET ARTICLES
-    // API.getArticlesList()
-      .then(res => this.setState({ breeds: res.data.message }))
-      .catch(err => console.log(err));
-  }
-
   handleInputChange = event => {
     this.setState({ search: event.target.value });
-  };
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    API.getDogsOfBreed(this.state.search)
-      .then(res => {
-        if (res.data.status === "error") {
-          throw new Error(res.data.message);
-        }
-        this.setState({ results: res.data.message, error: "" });
-      })
-      .catch(err => this.setState({ error: err.message }));
   };
 
   // UPDATED FORM SUBMIT (HOW EXACTLY IS THIS WORKING???)
@@ -51,9 +34,9 @@ class Search extends Component {
         if (res.data.status === "error") {
           throw new Error(res.data.message);
         }
-        this.setState({ results: res.data.message, error: ""});
+        this.setState({ results: res.data, error: ""});
       })
-      .catch(err => this.setState({ error: err.message }));
+      .catch(err => this.setState({ error: err }));
   };
 
   handleFormSubmit = event => {
@@ -95,15 +78,36 @@ class Search extends Component {
           >
             {this.state.error}
           </Alert>
+
           <SearchForm
             handleFormSubmit={this.handleFormSubmit}
             handleInputChange={this.handleInputChange}
-            breeds={this.state.breeds}
             topics={this.state.topics}
             startYears={this.state.startYears}
             endYears={this.state.endYears}
           />
+
+        <Row>
+         <Col size="md-12">
           <SearchResults results={this.state.results} />
+          {!this.state.articles.length ? (
+            <h1 className="text-center">No Articles Found</h1>
+          ) : ( 
+          <ArticleCardList>
+            {this.state.articles.map(article => {
+              return (
+                <ArticleCard
+                key={article.title}
+                title={article.title}
+                summary={article.summary}
+                href={article.href}
+                />
+              );
+            })}
+          </ArticleCardList>
+        )}
+         </Col>
+        </Row>
         </Container>
       </div>
     );
